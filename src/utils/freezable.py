@@ -12,6 +12,6 @@ class Freezable:
 		return (self._locked == True)
 	
 	def __setattr__(self, name, value):
-		if self._locked and name != "_locked":
+		if self._locked:
 			raise AttributeError(f"Instance {repr(self)} is locked, so attributes can’t be modified.")
 		super().__setattr__(name, value)
