@@ -1,4 +1,5 @@
 from utils.freezable import Freezable
+from typing import Optional
 
 class ScannerResults(Freezable): 
 	def __init__(self): 
@@ -7,10 +8,9 @@ class ScannerResults(Freezable):
 
 	host: str = ''
 	hostname: str = ''
-	error: Exception|None = None
+	error: Optional[Exception|str] = None
 
 	def __add__(self, result: tuple[int|Exception|bool]|list[int|Exception|bool]): 
-		
 		# Validate tuple/list shape
 		if not (isinstance(result, (tuple, list)) and len(result) == 2):
 			raise TypeError("A (port, status) pair can only be added.")
@@ -55,7 +55,7 @@ class ScannerResults(Freezable):
 			Returns:
 				dict[int, Exception]: A dictionary mapping the port to the closed state reason
 		"""
-		return dict([[entry for entry in self.__results.items() if isinstance(entry[1], BaseException)]])
+		return dict([[entry for entry in self.__results.items() if isinstance(entry[1], Exception)]])
 
 	@property
 	def ports(self) -> list[int]: 
